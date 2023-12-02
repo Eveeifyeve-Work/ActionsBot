@@ -1,9 +1,21 @@
-import { WebhookClient } from 'discord.js';
+const { WebhookClient, MessageEmbed } = require('discord.js')
 
-const webhookClient = new WebhookClient({ id: 'webhook_id', token: 'webhook_token' });
+const url = process.env.Discordhook
+const id = url.split('/')[5]
+const token = url.split('/')[6]
 
-const message = 'Hello, this is a message from my bot!';
+const webhookClient = new WebhookClient({ id, token })
 
-webhookClient.send(message)
-    .then(() => console.log('Message sent!'))
-    .catch(console.error);
+const embed = new MessageEmbed()
+  .setTitle('A slick little embed')
+  .setColor(0xff0000)
+  .setDescription('Hello, this is a slick embed!')
+
+webhookClient
+  .send({
+    username: 'My Webhook Bot',
+    avatarURL: 'https://i.imgur.com/wSTFkRM.png',
+    embeds: [embed],
+  })
+  .then(() => console.log('Message sent!'))
+  .catch(console.error)
